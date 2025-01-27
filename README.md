@@ -9,9 +9,11 @@
    
 2. Comparativa con Apache.
 3. Esquema de red.
-[Imagen esquema de red ](Imegenes/Esquemared.png)
-5. Instalación.
-6. Caso práctico.
-7. Referencias.
+   
+![Imagen esquema de red ](Imegenes/Esquemared.png)
+
+4. Instalación.
+5. Caso práctico.
+6. Referencias.
 
    [Kinsta.com](https://kinsta.com/es/base-de-conocimiento/que-es-nginx/)
