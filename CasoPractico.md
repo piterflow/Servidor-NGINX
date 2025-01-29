@@ -6,13 +6,13 @@ Relizaremos una serie de ejercicios para ver que nos ofrece Nginx y lo que podem
 
 `sudo nginx -v`
 
-IMAGEN ...
+[Imagen](Imegenes/Imagenes/instalacion.png)
 
 ## B) Fichero de configuración
 
 `ls /etc/nginx`
 
-IMAGEN ...
+[Imagen](Imegenes/Imagenes/fichero_configuracion.png)
 
 ## C) Servicios asociados
 
@@ -26,11 +26,11 @@ Para ello tenemos que acceder con un `nano` el archivo de configuración `sudo n
 
 Modificas el fichero a tu gusto.
 
-IMAGEN...
+[Imagen](Imegenes/Imagenes/html_nginx.png)
 
 Guardamos y comprobamos acceciendo a http://localhost o htt://ip_servidor (la ip debe ser la externa, **la publica**).
 
-IMAGEN...
+[Imagen](Imegenes/Imagenes/localhost_nginx.png)
 
 ## E) Virtual hosting
 
@@ -116,7 +116,7 @@ En este apartado crearemos dos sitios web distinto. Los llamaremos web1 y web2. 
 
        ```
 
-       IMAGEN...
+       [Imagen](Imegenes/Imagenes/configuracion_bloques1.png)
 
      - Web2:
 
@@ -137,7 +137,7 @@ En este apartado crearemos dos sitios web distinto. Los llamaremos web1 y web2. 
 
        ```
 
-        IMAGEN...
+        [Imagen](Imegenes/Imagenes/configuracion_bloques2.png)
 
 5. Habilitar sitios.
 
@@ -157,25 +157,25 @@ En este apartado crearemos dos sitios web distinto. Los llamaremos web1 y web2. 
    
    **127.0.0.1 www.web2.org**
 
-   IMAGEN...
+   [Imagen](Imegenes/Imagenes/configuracion_archivo_hosts.png)
 
 7. Probar la configuración de Nginx.
 
    `sudo nginx -t`
 
-   IMAGENweb1...
+   [Imagen web1](Imegenes/Imagenes/web1.png)
 
-   IMAGENweb2...
+   [Imagen web2](Imegenes/Imagenes/web2.png)
 
 ## F) Configuración de acceso según red (interna y externa).
 
   - Actualizamos la configuración de **www.web1.org**.
 
-    Edicamos el archivo de configuración de web2 en `/etc/nginx/sites-available/web1`.
+    Edicamos el archivo de configuración de web1 en `/etc/nginx/sites-available/web1`.
 
     Añadimos las líneas marcadas con un recuadro en la imagen.
 
-    IMAGEN...
+    [Imagen](Imegenes/Imagenes/configuracion_we1_sites_available.png)
 
   - Actualizamos la configuración de **www.web2.org**.
 
@@ -183,7 +183,7 @@ En este apartado crearemos dos sitios web distinto. Los llamaremos web1 y web2. 
 
     Añadimos las líneas marcadas con un recuadro en la imagen.
 
-    IMAGEN...
+    [Imagen](Imegenes/Imagenes/configuracion_we1_sites_available2.png)
 
    - Aplicamos los cambios.
 
@@ -201,6 +201,8 @@ En este apartado crearemos dos sitios web distinto. Los llamaremos web1 y web2. 
 
       **10.0.2.15      www.web1.org**
 
+     [Imagen](Imegenes/Imagenes/ip_hosts.png)
+
       A web1 le damos acceso para que acceda a través de la red interna y externa, y web2 solo puede acceder a la red interta.
 
       Guardamos los cambios.
@@ -213,29 +215,29 @@ En este apartado crearemos dos sitios web distinto. Los llamaremos web1 y web2. 
 
       Comprobamos la red interna.
 
-      < Nota: El nombre de mi red interna es enp0s8. Comprueba como se llama la tuya con un **ip a** o **ifconfig**.
+      > Nota: El nombre de mi red interna es enp0s8. Comprueba como se llama la tuya con un **ip a** o **ifconfig**.
 
       Desde web1 podemos acceder a la red interna.
 
       > Comando: `curl --interface enp0s8 http;//www.web1.org`
 
-      IMAGEN...
+      [Imagen](Imegenes/Imagenes/redinterna_web1.png)
 
       Desde web2 podemos acceder a la red interna.
 
       > Comando: `curl --interface enp0s8 http;//www.web2.org`
 
-      IMAGEN...
+     [Imagen](Imegenes/Imagenes/redinterna_web2.png)
 
       Comprobación de red externa.
 
       Entramos en el navegador y ponemos **http://www.web1.org**. Comprobamos que tenemos acceso.
 
-      IMAGEN...
+      [Imagen](Imegenes/Imagenes/redexteriorweb1.png)
 
       Entramos en el navegador y ponemos **http://www.web2.org**. Comprobamos que no podemos acceder.
 
-      IMAGEN...
+      [Imagen](Imegenes/Imagenes/redexteriorweb2.png)
 
 ## G) Autenticación, Autorización y Control de acceso.
 
@@ -247,7 +249,7 @@ En www.web1.com crearemos un directorio llamado privado, que solo tendrá acceso
 
    `nano /var/www/web1/privado/index.html` e introducir “Contenido privado de Web1”.
 
-   IMAGEN...
+   [Imagen](Imegenes/Imagenes/privadoweb1.png)
 
 2. Instalar el módulo de autenticación básica:
 
@@ -259,17 +261,19 @@ En www.web1.com crearemos un directorio llamado privado, que solo tendrá acceso
 
    Instalar *htpasswd* si no está instalado.
 
-   `sudo apt install apache2-utils`
+   `sudo htpasswd -c /etc/nginx/.htpasswd usuario1`
 
    Crear un archivo para las credenciales:
+
+   `sudo apt install apache2-utils`
 
    `sudo htpasswd -c /etc/nginx/.htpasswd usuario1`
 
    > Nota: El sistema pedirá una contraseña para el usuario usuario1.
 
-   IMAGEN...
+   [Imagen](Imegenes/Imagenes/credenciales.png)
 
-4. Configurar la autenticación en Nginx:
+5. Configurar la autenticación en Nginx:
 
    Edita el archivo de configuración de web1.
 
@@ -279,15 +283,17 @@ En www.web1.com crearemos un directorio llamado privado, que solo tendrá acceso
 
    Añadimos las siguientes líenas.
 
-   IMAGEN...
+   [Imagen](Imegenes/Imagenes/configuracion_autenticacion.png)
 
-   Comprobamos si nos pide el acceso.
+   Comprobamos que nos pide el acceso.
 
    **http://www.web1.org/privado**
    
-   IMAGEN...
+   [Imagen](Imegenes/Imagenes/accesoprivadoweb1.png)
 
    Comprobamos que tenemos acceso al contenido privado.
+
+   [Imagen](Imegenes/Imagenes/contenidoprivadoweb1.png)
 
 ## H) Autentificación, Autorización y Control de acceso.
 
@@ -295,7 +301,7 @@ En www.web1.com crearemos un directorio llamado privado, que solo tendrá acceso
 
    Para que nos pida autorizacion desde la externa y la interna no. En el archivo de configuración `nano /etc/nginx/sites_available/web1` añadimos lo que está en el recuadro en la imagen.
 
-   IMAGEN...
+   [Imagen](Imegenes/Imagenes/configuracionAutorizacion.png)
 
 ## I) Seguridad.
 
@@ -307,10 +313,10 @@ En www.web1.com crearemos un directorio llamado privado, que solo tendrá acceso
 
    Rellenamos los campos para completar los pasos.
    
-   País/Provincia/Localidad/Organización/Server/Correo electrónico
+   País/Provincia/Localidad/Organización/Server/Correo electrónico.
 
-   **Configuramos el archivo `/etc/nginx/sites-available/web1`
+   [Imagen](Imegenes/Imagenes/comandoClave.png)
 
- IMAGEN...
+   Configuramos el archivo `/etc/nginx/sites-available/web1`
 
- 
+   [Imagen](Imegenes/Imagenes/configuracionclave.png)
