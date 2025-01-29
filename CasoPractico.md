@@ -185,7 +185,7 @@ En este apartado crearemos dos sitios web distinto. Los llamaremos web1 y web2. 
 
     IMAGEN...
 
-    - Aplicamos los cambios.
+   - Aplicamos los cambios.
 
       Después de guardar los cambios de ambos archivos, recargamos la configuración de Nginx.
 
@@ -193,7 +193,7 @@ En este apartado crearemos dos sitios web distinto. Los llamaremos web1 y web2. 
 
       `sudo systemctl reload nginx`
 
-      - Entramos en el archivo `/etc/host` y añadimos las siguientes líneas. web1 puede acceder a la red privada y externa. web2 puede acceder a la red interna pero no a la red externa.
+   - Entramos en el archivo `/etc/host` y añadimos las siguientes líneas. web1 puede acceder a la red privada y externa. web2 puede acceder a la red interna pero no a la red externa.
         
       **192..168.100.2 www.web1.org**
 
@@ -207,7 +207,7 @@ En este apartado crearemos dos sitios web distinto. Los llamaremos web1 y web2. 
 
       > Nota: En caso de que no nos deje visualizar la red interna tenemos que habilitar en el firewall para que permita el tráfico al puerto 80.
 
-        `sudo ufw allow 80/tcp`
+      `sudo ufw allow 80/tcp`
 
       Comprobaciones:
 
@@ -233,6 +233,84 @@ En este apartado crearemos dos sitios web distinto. Los llamaremos web1 y web2. 
 
       IMAGEN...
 
-       Entramos en el navegador y ponemos **http://www.web2.org**. Comprobamos que no podemos acceder.
+      Entramos en el navegador y ponemos **http://www.web2.org**. Comprobamos que no podemos acceder.
 
       IMAGEN...
+
+## G) Autenticación, Autorización y Control de acceso.
+
+En www.web1.com crearemos un directorio llamado privado, que solo tendrá acceso desde la red externa y el usuario valido.
+
+1. Creamos un directorio llamado *privado* en web1.
+
+   `sudo mkdir -p /var/www/web1/privado`
+
+   `nano /var/www/web1/privado/index.html` e introducir “Contenido privado de Web1”.
+
+   IMAGEN...
+
+2. Instalar el módulo de autenticación básica:
+
+   El módulo para autenticación básica ya está incluido en Nginx. Solo necesitas configurar los archivos de credenciales.
+
+   Saltamos al siguiente punto.
+
+3. Crear un archivo de credenciales:
+
+   Instalar *htpasswd* si no está instalado.
+
+   `sudo apt install apache2-utils`
+
+   Crear un archivo para las credenciales:
+
+   `sudo htpasswd -c /etc/nginx/.htpasswd usuario1`
+
+   > Nota: El sistema pedirá una contraseña para el usuario usuario1.
+
+   IMAGEN...
+
+4. Configurar la autenticación en Nginx:
+
+   Edita el archivo de configuración de web1.
+
+   `sudo nano /etc/nginx/sites-available/web1`
+
+   Agregue este bloque dentro de server **{}** para el directorio **/privado**:
+
+   Añadimos las siguientes líenas.
+
+   IMAGEN...
+
+   Comprobamos si nos pide el acceso.
+
+   **http://www.web1.org/privado**
+   
+   IMAGEN...
+
+   Comprobamos que tenemos acceso al contenido privado.
+
+## H) Autentificación, Autorización y Control de acceso.
+
+   www.web1.org contiene un directorio llamado privado. Desde la red externa pide autorización y desde la red interna NO.
+
+   Para que nos pida autorizacion desde la externa y la interna no. En el archivo de configuración `nano /etc/nginx/sites_available/web1` añadimos lo que está en el recuadro en la imagen.
+
+   IMAGEN...
+
+## I) Seguridad.
+
+   Configuramos el sitio virtual www.web1.org para que el acceso sea seguro.
+
+   Creamos la clave key privada para que podamos acceder a web1.
+
+   `sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/selfigned.key -out /etc/ssl/certs/selfsigned.crt`
+
+   Rellenamos los campos para completar los pasos.
+   
+   País/Provincia/Localidad/Organización/Server/Correo electrónico
+
+   **Configuramos el archivo `/etc/nginx/sites-available/web1`
+
+ IMAGEN...
+
+ 
