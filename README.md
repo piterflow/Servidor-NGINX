@@ -12,6 +12,4 @@
    
 5. [Caso práctico](CasoPractico.md)
    
-6. Referencias.
-
-   [Kinsta.com](https://kinsta.com/es/base-de-conocimiento/que-es-nginx/)
+6. [Referencias](Referencias.md).
